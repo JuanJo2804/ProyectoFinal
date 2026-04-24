@@ -1,0 +1,58 @@
+const mockProducts = [
+  {
+    id: 1,
+    name: "Premium Headphones",
+    price: 149.99,
+    rating: 4.5,
+    category: "electronics",
+    image: "headphones.webp",
+    description: "Auriculares premium con cancelación de ruido activa, batería de 30 horas y sonido envolvente de alta calidad. Perfectos para música, llamadas y entretenimiento.",
+  },
+  {
+    id: 2,
+    name: "Smart Watch",
+    price: 299.99,
+    rating: 4.8,
+    category: "electronics",
+    image: "smartwa.jpg",
+    description: "Reloj inteligente con pantalla AMOLED, monitor de ritmo cardíaco, GPS integrado y resistencia al agua. Sincroniza con tu teléfono para notificaciones en tiempo real.",
+  },
+  {
+    id: 3,
+    name: "Wireless Speaker",
+    price: 79.99,
+    rating: 4.3,
+    category: "electronics",
+    image: "speaker.jpg",
+    description: "Altavoz portátil con sonido estéreo de 360 grados, batería de 12 horas y conectividad Bluetooth 5.0. Resistente al agua, ideal para interiores y exteriores.",
+  },
+  {
+    id: 4,
+    name: "USB-C Cable",
+    price: 19.99,
+    rating: 4.6,
+    category: "accessories",
+    image: "usb-c.jpg",
+    description: "Cable USB-C de alta velocidad 3.0 de 2 metros. Compatible con carga rápida y transferencia de datos. Durable y resistente con certificación de seguridad.",
+  },
+  {
+    id: 5,
+    name: "Phone Case",
+    price: 24.99,
+    rating: 4.4,
+    category: "accessories",
+    image: "phone-case.jpeg",
+    description: "Funda protectora premium con diseño elegante y absorción de impactos. Protege tu teléfono de caídas, rasguños y golpes sin añadir volumen.",
+  },
+  {
+    id: 6,
+    name: "Screen Protector",
+    price: 9.99,
+    rating: 4.7,
+    category: "accessories",
+    image: "screen-protector.webp",
+    description: "Protector de pantalla de vidrio templado con dureza 9H. Previene arañazos y caídas. Instalación fácil sin burbujas y cobertura completa.",
+  },
+];
+
+export { mockProducts };
