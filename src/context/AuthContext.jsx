@@ -3,10 +3,13 @@ import {
   createUserWithEmailAndPassword, 
   signInWithEmailAndPassword, 
   signOut,
-  onAuthStateChanged
+  onAuthStateChanged,
+  deleteUser,
+  EmailAuthProvider,
+  reauthenticateWithCredential
 } from 'firebase/auth';
 import { auth, db } from '../firebase/config';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc, deleteDoc, updateDoc } from 'firebase/firestore';
 
 const AuthContext = createContext();
 
@@ -98,6 +101,46 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Actualizar datos del usuario en Firestore
+  const updateUserData = async (uid, updatedData) => {
+    try {
+      setError(null);
+      await setDoc(doc(db, 'users', uid), {
+        ...updatedData,
+        updatedAt: new Date(),
+      }, { merge: true });
+      return true;
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    }
+  };
+
+  // Eliminar cuenta del usuario (Auth + Firestore)
+  const deleteAccount = async (password) => {
+    try {
+      setError(null);
+      const currentUser = auth.currentUser;
+      if (!currentUser) throw new Error('No hay usuario autenticado');
+
+      // Re-autenticar antes de eliminar
+      const credential = EmailAuthProvider.credential(currentUser.email, password);
+      await reauthenticateWithCredential(currentUser, credential);
+
+      // Eliminar documento de Firestore
+      await deleteDoc(doc(db, 'users', currentUser.uid));
+
+      // Eliminar usuario de Firebase Auth
+      await deleteUser(currentUser);
+
+      setUser(null);
+      return true;
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    }
+  };
+
   const value = {
     user,
     loading,
@@ -106,6 +149,8 @@ export const AuthProvider = ({ children }) => {
     login,
     logout,
     getUserData,
+    updateUserData,
+    deleteAccount,
     isAuthenticated: !!user,
   };
 

@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCartCount } from '../../../utils/cartUtils';
 import { useSearch } from '../../../context/SearchContext';
+import { useAuth } from '../../../context/AuthContext';
 
 function Header() {
   const [cartCount, setCartCount] = useState(() => getCartCount());
   const navigate = useNavigate();
   const { searchQuery, setSearchQuery, selectedCategory, setSelectedCategory } = useSearch();
+  const { user } = useAuth();
 
   // Categorías disponibles
   const categories = [
@@ -91,6 +93,18 @@ function Header() {
               </span>
             )}
           </button>
+
+          {/* Perfil de Usuario */}
+          {user && (
+            <button
+              id="btn-header-profile"
+              onClick={() => navigate('/profile')}
+              className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-sm hover:shadow-lg hover:shadow-blue-200 transition-all duration-300 active:scale-95 flex-shrink-0"
+              title="Mi Perfil"
+            >
+              {user.email ? user.email[0].toUpperCase() : 'U'}
+            </button>
+          )}
         </div>
 
         {/* Segunda fila: Categorías */}

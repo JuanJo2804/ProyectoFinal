@@ -39,7 +39,16 @@ const Login = () => {
       await login(formData.email, formData.password);
       navigate("/gallery");
     } catch (err) {
-      setError(err.message || "Invalid email or password");
+      const code = err.code || err.message || "";
+      if (code.includes("invalid-credential") || code.includes("wrong-password") || code.includes("user-not-found")) {
+        setError("Correo o contraseña incorrectos.");
+      } else if (code.includes("too-many-requests")) {
+        setError("Demasiados intentos. Intenta de nuevo más tarde.");
+      } else if (code.includes("network-request-failed")) {
+        setError("Error de conexión. Verifica tu internet.");
+      } else {
+        setError("Ocurrió un error al iniciar sesión. Intenta de nuevo.");
+      }
     } finally {
       setLoading(false);
     }
